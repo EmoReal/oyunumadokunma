@@ -3,103 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>#OYUNUMADOKUNMA!!!</title>
+    <title>#OYUNUMADOKUNMA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --accent: #f1c40f; --discord: #5865F2; --bg: #0a0a0a; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        :root { 
+            --accent: #f1c40f; 
+            --discord: #5865F2; 
+            --bg: #050505; 
+            --card-bg: #111111;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg); 
+            color: #fff; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            overflow-x: hidden; 
+        }
 
-        /* CS2 HEADER */
         .mega-header {
-            width: 100%; height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://img.tamindir.com/2024/02/470608/cs-2-oyundan-atiyor-cozum.jpg');
-            background-size: cover; background-position: center; border-bottom: 8px solid var(--accent);
-        }
-        .mega-header h1 { font-size: clamp(3rem, 12vw, 6.5rem); margin: 0; text-shadow: 0 5px 30px #000; font-weight: 900; line-height: 0.9; }
-        .mega-header p { font-size: 1.4rem; margin-top: 15px; background: rgba(0,0,0,0.7); padding: 5px 20px; border-radius: 5px; letter-spacing: 2px; }
-
-        /* KONTEYNER */
-        .container { width: 95%; max-width: 850px; background: #161616; padding: 35px; margin: -80px 0 20px 0; border-radius: 20px; border: 1px solid #333; text-align: center; box-sizing: border-box; z-index: 10; position: relative; }
-
-        /* ŞEFFAF ALT YAZI */
-        .transparent-footer {
-            opacity: 0.2; /* Şeffaflık seviyesi */
-            font-size: 0.8rem;
-            color: #fff;
-            margin-bottom: 50px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 300;
+            width: 100%; 
+            height: 90vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            background: url('https://img.tamindir.com/2024/02/470608/cs-2-oyundan-atiyor-cozum.jpg');
+            background-size: cover; 
+            background-position: center; 
+            position: relative;
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
         }
 
-        /* VİDEO GALERİSİ */
-        .video-label { font-size: 0.85rem; color: #fff; opacity: 0.7; margin-bottom: 10px; text-align: left; text-transform: lowercase; }
-        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 35px; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; border: 1px solid #444; }
+        .mega-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .mega-header h1 { 
+            font-size: clamp(2.5rem, 10vw, 6.5rem); 
+            margin: 0; 
+            font-weight: 900; 
+            line-height: 0.85; 
+            letter-spacing: -3px; 
+            z-index: 2;
+            text-shadow: 0 10px 40px rgba(0,0,0,1);
+        }
+
+        .container { 
+            width: 95%; 
+            max-width: 850px; 
+            background: var(--card-bg); 
+            padding: 50px 30px; 
+            margin: -180px 0 60px 0; 
+            border-radius: 32px; 
+            border: 1px solid #222; 
+            text-align: center; 
+            z-index: 10; 
+            position: relative;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.8);
+        }
+
+        #mainWrapper.blur { filter: blur(15px); pointer-events: none; transition: 0.4s; }
+
+        .slider-container { position: relative; width: 100%; display: flex; align-items: center; margin-bottom: 40px; }
+        .video-slider { 
+            display: flex; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; 
+            gap: 15px; padding: 10px 10%; scrollbar-width: none; width: 100%; 
+        }
+        .video-slider::-webkit-scrollbar { display: none; }
+        .video-card { flex: 0 0 100%; scroll-snap-align: center; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; border: 1px solid #333; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* BAŞLIKLAR VE METİN */
-        h2 { color: var(--accent); font-size: 1.7rem; margin: 20px 0 10px 0; text-transform: uppercase; }
-        h3 { color: #fff; font-size: 1.1rem; margin: 30px 0 15px 0; border-bottom: 1px solid #333; padding-bottom: 8px; }
-        p { font-size: 0.95rem; line-height: 1.6; color: #ccc; }
+        .nav-btn {
+            background: var(--accent); color: #000; border: none; width: 48px; height: 48px; border-radius: 50%;
+            cursor: pointer; position: absolute; z-index: 30; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+        .nav-btn:hover { background: #fff; transform: scale(1.1); }
+        .prev-btn { left: -10px; }
+        .next-btn { right: -10px; }
 
-        /* ETİKETLER */
-        .platform-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 15px 0; }
-        .platform-tag { background: #222; padding: 7px 12px; border-radius: 5px; border: 1px solid #444; color: var(--accent); font-size: 0.8rem; }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.94); display: none; justify-content: center; align-items: center; z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+        .modal-panel {
+            background: #161616; border: 1px solid var(--accent); border-radius: 24px;
+            padding: 40px; width: 90%; max-width: 450px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            animation: modalIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-        /* BUTONLAR */
-        .btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: bold; color: #000; margin-bottom: 12px; box-sizing: border-box; transition: 0.3s; border: none; }
-        .btn-main { background: var(--accent); font-size: 1.1rem; }
-        .btn-discord { background: var(--discord); color: white; flex: 1; font-size: 0.85rem; }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .discord-row { display: flex; gap: 10px; margin-top: 10px; }
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        @media (max-width: 650px) { .video-grid { grid-template-columns: 1fr; } .discord-row { flex-direction: column; } .mega-header h1 { font-size: 2.8rem; } }
+        .btn { 
+            display: flex; align-items: center; justify-content: center; padding: 18px 24px; border-radius: 12px; 
+            text-decoration: none; font-weight: 700; transition: 0.3s; cursor: pointer; border: none; 
+            width: 100%; max-width: 380px; margin: 0 auto 14px auto; box-sizing: border-box;
+        }
+        .btn-main { background: var(--accent); color: #000; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(241, 196, 15, 0.2); }
+        .btn-sub { background: #252525; color: #fff; font-size: 1rem; border: 1px solid #333; }
+        .btn-kdk { background: #2980b9; color: white; }
+        .btn-close { background: transparent; color: #666; font-size: 0.9rem; margin-top: 10px; width: auto; }
+        .btn:hover { transform: translateY(-4px); filter: brightness(1.1); }
+
+        .desc-title { font-weight: 800; font-size: 2.2rem; margin-top: 0; }
+        .desc-body { color: #aaa; line-height: 1.8; margin-bottom: 40px; font-size: 1.05rem; text-align: justify; }
+
+        .platform-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 30px 0; }
+        .platform-tag { background: #1a1a1a; padding: 8px 16px; border-radius: 8px; border: 1px solid #333; font-size: 0.85rem; color: #f1c40f; font-weight: 600; }
+
+        .discord-row { display: flex; gap: 12px; width: 100%; max-width: 380px; margin: 20px auto 0 auto; }
+        .btn-discord { background: #1e1e1e; color: #fff; border: 1px solid #333; flex: 1; padding: 14px; font-size: 0.85rem; margin-bottom: 0; }
+
+        @media (max-width: 650px) { .nav-btn { display: none; } .discord-row { flex-direction: column; } .mega-header { height: 75vh; } .desc-body { text-align: center; } }
     </style>
 </head>
 <body>
 
-    <header class="mega-header">
-        <h1>OYUNUMA<br>DOKUNMA!</h1>
-        <p>#OyunumaDokunma</p>
-    </header>
+    <div id="mainWrapper" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <header class="mega-header">
+            <h1>#OYUNUMA<br>DOKUNMA!</h1>
+            <p style="color: var(--accent); font-weight: bold; letter-spacing: 5px; z-index: 2; margin-top: 15px; text-shadow: 0 5px 15px #000;">DİJİTAL ÖZGÜRLÜK HAREKETİ</p>
+        </header>
 
-    <div class="container">
-        <div class="video-label">ilgili videolar</div>
-        <div class="video-grid">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/3c_Uv3Vvzqo" frameborder="0" allowfullscreen></iframe>
+        <div class="container">
+            <!-- VİDEOLAR -->
+            <div class="slider-container">
+                <button class="nav-btn prev-btn" onclick="scrollSlider(-1)"><i class="fas fa-chevron-left"></i></button>
+                <div class="video-slider" id="videoSlider">
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/d-nsr3GXYdA" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/RCw1bI-22uk" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/G9D8hwKQrkg" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/ZEDCxTaIZ7g" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/0D63fhE4QYg" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/VVH0e00qopY" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/W0BXYgs15iY" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/nQSYh_d2WTc" frameborder="0" allowfullscreen></iframe></div></div>
+                    <div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/cWONVZWmwG0" frameborder="0" allowfullscreen></iframe></div></div>
+                </div>
+                <button class="nav-btn next-btn" onclick="scrollSlider(1)"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/345uFp8ZQKo" frameborder="0" allowfullscreen></iframe>
+
+            <h2 class="desc-title">🏛️ Haklarımıza <span style="color:var(--accent)">Sahip Çıkıyoruz</span></h2>
+            
+            <!-- UZUN AÇIKLAMA -->
+            <div class="desc-body">
+                Türkiye'deki oyun topluluğu, son dönemde dijital platformlara yönelik hazırlanan ve serbest piyasa koşullarını derinden sarsma potansiyeli taşıyan yeni yönetmelik taslaklarıyla karşı karşıyadır. BTK ve ilgili bakanlıklar nezdinde yürütülen bu süreç, sadece ekonomik bir düzenleme değil, aynı zamanda milyonlarca gencin sosyalleştiği, kendini geliştirdiği ve küresel dünyaya entegre olduğu dijital alanlara doğrudan bir müdahale riskini barındırmaktadır. 
+                <br><br>
+                Dünya genelinde standartlaşmış olan dijital oyun dağıtım modellerinin yerel kısıtlamalara maruz kalması, oyunların Türkiye pazarından çekilmesine, fiyatların fahiş düzeyde artmasına ve en önemlisi "erişim engeli" gibi ağır sansür mekanizmalarının devreye girmesine yol açabilir. Bizler oyuncular olarak; oyunun sadece bir eğlence aracı olmadığını, bir sanat dalı, bir spor dalı ve küresel bir kültür olduğunu savunuyoruz. 
+                <br><br>
+                Bu platformların kısıtlanması, Türkiye'nin dijital dünyadaki prestijine zarar vereceği gibi, oyuncuları güvenli olmayan yöntemlere (korsan, zararlı VPN vb.) itecektir. Sesimizi demokratik yollarla duyurmak, anayasal haklarımızı savunmak ve dijital geleceğimizi korumak için buradayız. Aşağıdaki butonlar aracılığıyla resmi makamlara başvurarak bu kısıtlamalara karşı itirazını resmileştirebilirsin.
             </div>
-        </div>
 
-        <h2>🏛️ Taslak Hakkında Bilgilendirme</h2>
-        <p>Dijital platformlara yönelik hazırlanan yeni yönetmelik, serbest piyasayı ve oyuncu özgürlüğünü kısıtlama riski taşımaktadır.</p>
+            <!-- TÜM RİSKLİ PLATFORMLAR -->
+            <div class="platform-list">
+                <span class="platform-tag">Steam</span><span class="platform-tag">Epic Games Store</span><span class="platform-tag">PlayStation Network</span>
+                <span class="platform-tag">Xbox Store</span><span class="platform-tag">Nintendo eShop</span><span class="platform-tag">Battle.net</span>
+                <span class="platform-tag">Ubisoft Connect</span><span class="platform-tag">GOG.com</span><span class="platform-tag">EA App</span>
+                <span class="platform-tag">Riot Games</span><span class="platform-tag">Roblox</span><span class="platform-tag">Discord</span>
+                <span class="platform-tag">Twitch</span><span class="platform-tag">Kick</span><span class="platform-tag">Rockstar Games</span>
+            </div>
 
-        <h3>⚠️ Tehlike Altındaki Mağazalar</h3>
-        <div class="platform-list">
-            <span class="platform-tag">Steam</span> <span class="platform-tag">Epic Games</span> <span class="platform-tag">PlayStation Store</span> 
-            <span class="platform-tag">Xbox Store</span> <span class="platform-tag">Nintendo eShop</span> <span class="platform-tag">Battle.net</span>
-            <span class="platform-tag">Ubisoft Connect</span> <span class="platform-tag">GOG.com</span> <span class="platform-tag">EA App</span>
-        </div>
-
-        <div style="max-width: 500px; margin: 40px auto 0 auto;">
-            <a href="https://www.turkiye.gov.tr/btk-erisimin-engellenmesi-kararina-itiraz-basvurusu" class="btn btn-main">
-                <i class="fas fa-paper-plane" style="margin-right:10px;"></i> BTK'YA İTİRAZINI GÖNDER
-            </a>
+            <button onclick="openModal()" class="btn btn-main">
+                <i class="fas fa-hand-fist" style="margin-right:12px;"></i> HAKKINI ARA VE İTİRAZ ET
+            </button>
 
             <div class="discord-row">
-                <a href="https://discord.com/users/1458409356075864262" class="btn btn-discord"><i class="fab fa-discord"></i> TOSKNIRBROM</a>
                 <a href="https://discord.com/users/984477792018235442" class="btn btn-discord"><i class="fab fa-discord"></i> EMOREAL</a>
+                <a href="https://discord.com/users/1458409356075864262" class="btn btn-discord"><i class="fab fa-discord"></i> TOSKNIRBROM</a>
             </div>
         </div>
     </div>
 
-    <a href="https://emoreal.dev.tc/#projeler" class="transparent-footer">
-        By EmoReal
-    </a>
+    <div id="itirazModal" class="modal-overlay">
+        <div class="modal-panel">
+            <h2 style="margin:0 0 10px 0; color:var(--accent); font-size: 1.7rem;">İtiraz Kanalları</h2>
+            <p style="color:#888; font-size:0.95rem; margin-bottom:30px;">Lütfen yaş grubuna uygun resmi yöntemi seç.</p>
+            
+            <a href="https://www.turkiye.gov.tr/btk-erisimin-engellenmesi-kararina-itiraz-basvurusu" target="_blank" class="btn btn-sub">
+                <i class="fas fa-user-check" style="margin-right:12px;"></i> 18 YAŞ ÜSTÜ (E-DEVLET)
+            </a>
+
+            <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid #222; width: 100%;">
+                <p style="font-size: 0.9rem; color: #fff; margin-bottom: 15px;"><strong>18 YAŞ ALTI İÇİN (VELİSİZ):</strong></p>
+                <a href="https://www.kdkcocuk.gov.tr/" target="_blank" class="btn btn-kdk btn">
+                    <i class="fas fa-child" style="margin-right:12px;"></i> KDK ÇOCUK İLE ŞİKAYET ET
+                </a>
+            </div>
+
+            <button onclick="closeModal()" class="btn btn-close">PENCEREYİ KAPAT</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('itirazModal').style.display = 'flex';
+            document.getElementById('mainWrapper').classList.add('blur');
+        }
+        function closeModal() {
+            document.getElementById('itirazModal').style.display = 'none';
+            document.getElementById('mainWrapper').classList.remove('blur');
+        }
+        const slider = document.getElementById('videoSlider');
+        function scrollSlider(direction) {
+            const card = document.querySelector('.video-card');
+            slider.scrollBy({ left: direction * card.clientWidth, behavior: 'smooth' });
+        }
+        window.onclick = function(e) { if (e.target == document.getElementById('itirazModal')) closeModal(); }
+    </script>
 
 </body>
 </html>
